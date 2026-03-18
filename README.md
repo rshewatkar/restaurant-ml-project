@@ -1,58 +1,19 @@
-# Restaurant ML Project
+# 🍽️ Restaurant ML Project — Cognifyz Technologies
 
-## Project Overview
-This project analyzes restaurant data and builds machine learning models to:
+## Overview
+Machine learning project analyzing 9,551 restaurants across multiple 
+countries to predict ratings, classify cuisines, recommend restaurants, 
+and perform location-based analysis.
 
-- Predict restaurant ratings
-- Classify cuisine types
-- Recommend restaurants
-- Perform location-based analysis
+## Status
+🔄 In Progress
 
-## Technologies Used
-- Python
-- Pandas
-- NumPy
-- Scikit-Learn
-- Matplotlib
-- Seaborn
-- Folium
+## Tasks
+- ✅ EDA & Preprocessing
+- 🔄 Task 1 — Rating Prediction
+- 🔄 Task 2 — Recommendation System
+- 🔄 Task 3 — Cuisine Classification
+- 🔄 Task 4 — Location Analysis
 
-## Project Structure
-restaurant-ml-project
-│
-├── data
-│   └── restaurant_dataset.csv
-│
-├── notebooks
-│   └── restaurant_analysis.ipynb
-│
-├── src
-│   ├── data_preprocessing.py
-│   ├── rating_prediction.py
-│   ├── cuisine_classification.py
-│   └── recommendation_system.py
-│
-├── visuals
-│
-├── requirements.txt
-└── README.md
-
-## Machine Learning Tasks
-1. Restaurant Rating Prediction
-2. Cuisine Classification
-3. Restaurant Recommendation System
-4. Location Based Analysis
-
-## How to Run
-
-Clone the repository
-
-git clone https://github.com/rshewatkar/restaurant-ml-project.git
-
-Install dependencies
-
-pip install -r requirements.txt
-
-Run the notebook
-
-notebooks/restaurant_analysis.ipynb
+## Author
+Rahul Shewatkar — Cognifyz Technologies ML Internship
