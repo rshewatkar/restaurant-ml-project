@@ -1,4 +1,23 @@
+# Python
 __pycache__/
-*.pyc
-.ipynb_checkpoints
+*.py[cod]
+*.egg-info/
 .env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (if file is too large)
+# data/restaurant_dataset.csv
+
+# Virtual Environment
+venv/
+env/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
