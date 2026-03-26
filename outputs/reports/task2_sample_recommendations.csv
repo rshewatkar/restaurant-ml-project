@@ -1,0 +1,6 @@
+Restaurant Name,Primary Cuisine,City,Price range,Aggregate rating,Has Online delivery,Has Table booking,Votes,Similarity Score
+Baba Chicken Ludhiana Wale,North Indian,New Delhi,1,3.1,1,0,7,1.0
+Green Bhojanalya,North Indian,New Delhi,1,3.2,1,0,96,0.9999
+Vaishno Amritsari Dhaba,North Indian,New Delhi,1,3.2,1,0,51,0.9999
+Karan's Vaishno Dhaba,North Indian,New Delhi,1,3.2,1,0,29,0.9999
+Punjabi Corner,North Indian,New Delhi,1,3.3,1,0,55,0.9997
