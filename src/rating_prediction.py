@@ -259,7 +259,7 @@ def train_all_models(X_train_scaled, X_train_raw, y_train):
     --------
     models = train_all_models(X_train_scaled, X_train_raw, y_train)
     """
-    print("🚀 Training all models...")
+    print("Training all models...")
     print("-" * 40)
 
     models = {
@@ -275,7 +275,7 @@ def train_all_models(X_train_scaled, X_train_raw, y_train):
     }
 
     print("-" * 40)
-    print("✅ All models trained successfully!")
+    print("All models trained successfully!")
     return models
 
 
@@ -362,7 +362,7 @@ def evaluate_all_models(models, X_test_scaled,
     print("MODEL COMPARISON RESULTS")
     print("=" * 55)
     print(results_df.to_string(index=False))
-    print("\n✅ Higher R² = Better | Lower RMSE = Better")
+    print("\nHigher R² = Better | Lower RMSE = Better")
 
     return results_df
 
@@ -414,7 +414,7 @@ def plot_model_comparison(results_df, save_path=None):
 
     if save_path:
         plt.savefig(save_path, dpi=150, bbox_inches='tight')
-        print(f"✅ Plot saved: {save_path}")
+        print(f"Plot saved: {save_path}")
 
     plt.show()
 
@@ -454,7 +454,7 @@ def plot_feature_importance(model, feature_cols, save_path=None):
 
     if save_path:
         plt.savefig(save_path, dpi=150, bbox_inches='tight')
-        print(f"✅ Plot saved: {save_path}")
+        print(f"Plot saved: {save_path}")
 
     plt.show()
     return importance_df
@@ -491,8 +491,8 @@ def save_models(models, scaler, save_dir='../outputs/models/'):
         os.path.join(save_dir, 'rating_scaler.pkl')
     )
 
-    print(f"✅ Model saved : {save_dir}rating_model.pkl")
-    print(f"✅ Scaler saved: {save_dir}rating_scaler.pkl")
+    print(f"Model saved : {save_dir}rating_model.pkl")
+    print(f"Scaler saved: {save_dir}rating_scaler.pkl")
 
 
 def load_model(model_path, scaler_path):
@@ -518,7 +518,7 @@ def load_model(model_path, scaler_path):
     """
     model  = joblib.load(model_path)
     scaler = joblib.load(scaler_path)
-    print("✅ Model and scaler loaded successfully!")
+    print("Model and scaler loaded successfully!")
     return model, scaler
 
 
@@ -567,7 +567,7 @@ def predict_rating(model, scaler, input_data):
     # Clip to valid range 0-5
     predicted = np.clip(predicted, 0, 5)
 
-    print(f"✅ Predicted Rating: {predicted:.2f} / 5.0")
+    print(f"Predicted Rating: {predicted:.2f} / 5.0")
     return round(predicted, 2)
 
 

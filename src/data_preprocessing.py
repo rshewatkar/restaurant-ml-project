@@ -27,16 +27,16 @@ def load_data(filepath):
     """
     try:
         df = pd.read_csv(filepath, encoding='latin-1')
-        print(f"✅ Data loaded successfully!")
-        print(f"   Shape    : {df.shape}")
-        print(f"   Rows     : {df.shape[0]}")
-        print(f"   Columns  : {df.shape[1]}")
+        print(f"Data loaded successfully!")
+        print(f"Shape    : {df.shape}")
+        print(f"Rows     : {df.shape[0]}")
+        print(f"Columns  : {df.shape[1]}")
         return df
     except FileNotFoundError:
-        print(f"❌ File not found: {filepath}")
+        print(f"File not found: {filepath}")
         return None
     except Exception as e:
-        print(f"❌ Error loading data: {e}")
+        print(f"Error loading data: {e}")
         return None
 
 
@@ -72,9 +72,9 @@ def check_missing_values(df):
     missing_df = missing_df[missing_df['Missing Count'] > 0]
 
     if len(missing_df) == 0:
-        print("✅ No missing values found!")
+        print("No missing values found!")
     else:
-        print("⚠️ Missing Values Found:")
+        print("Missing Values Found:")
         print(missing_df.to_string())
 
     return missing_df
@@ -106,9 +106,9 @@ def handle_missing_values(df):
     df = df.dropna(subset=['Cuisines'])
 
     dropped = original_shape - df.shape[0]
-    print(f"✅ Missing values handled!")
-    print(f"   Rows dropped : {dropped}")
-    print(f"   Rows remaining : {df.shape[0]}")
+    print(f"Missing values handled!")
+    print(f"Rows dropped : {dropped}")
+    print(f"Rows remaining : {df.shape[0]}")
 
     return df
 
@@ -156,9 +156,9 @@ def drop_irrelevant_columns(df):
     cols_to_drop = [c for c in cols_to_drop if c in df.columns]
     df = df.drop(columns=cols_to_drop)
 
-    print(f"✅ Irrelevant columns dropped!")
-    print(f"   Dropped  : {cols_to_drop}")
-    print(f"   Remaining columns : {df.shape[1]}")
+    print(f"Irrelevant columns dropped!")
+    print(f"Dropped  : {cols_to_drop}")
+    print(f"Remaining columns : {df.shape[1]}")
 
     return df
 
@@ -200,7 +200,7 @@ def encode_binary_columns(df):
     for col in binary_cols:
         df[col] = df[col].map({'Yes': 1, 'No': 0})
 
-    print(f"✅ Binary columns encoded: {binary_cols}")
+    print(f"Binary columns encoded: {binary_cols}")
     return df
 
 
@@ -228,8 +228,8 @@ def extract_primary_cuisine(df):
         if pd.notnull(x) else 'Unknown'
     )
 
-    print(f"✅ Primary Cuisine extracted!")
-    print(f"   Unique cuisines: {df['Primary Cuisine'].nunique()}")
+    print(f"Primary Cuisine extracted!")
+    print(f"Unique cuisines: {df['Primary Cuisine'].nunique()}")
     return df
 
 
@@ -259,9 +259,9 @@ def group_top_categories(df, column, top_n=20, other_label='Other'):
         lambda x: x if x in top_categories else other_label
     )
 
-    print(f"✅ {column} grouped!")
-    print(f"   Categories kept : {top_n}")
-    print(f"   Unique values   : {df[column].nunique()}")
+    print(f"{column} grouped!")
+    print(f"Categories kept : {top_n}")
+    print(f"Unique values   : {df[column].nunique()}")
     return df
 
 
@@ -293,9 +293,9 @@ def encode_categorical_columns(df, columns):
             le = LabelEncoder()
             df[col] = le.fit_transform(df[col].astype(str))
             encoders[col] = le
-            print(f"✅ Encoded: {col} → {df[col].nunique()} categories")
+            print(f"Encoded: {col} → {df[col].nunique()} categories")
         else:
-            print(f"⚠️ Column not found: {col}")
+            print(f"Column not found: {col}")
 
     return df, encoders
 
@@ -336,13 +336,13 @@ def handle_outliers(df, column, method='iqr'):
         upper = Q3 + 1.5 * IQR
         df = df[(df[column] >= lower) & (df[column] <= upper)]
         removed = original_count - len(df)
-        print(f"✅ Outliers removed from {column}: {removed} rows")
+        print(f"Outliers removed from {column}: {removed} rows")
 
     elif method == 'clip':
         lower = df[column].quantile(0.01)
         upper = df[column].quantile(0.99)
         df[column] = df[column].clip(lower, upper)
-        print(f"✅ {column} clipped to [{lower:.2f}, {upper:.2f}]")
+        print(f"{column} clipped to [{lower:.2f}, {upper:.2f}]")
 
     return df
 
@@ -371,9 +371,9 @@ def filter_rated_restaurants(df):
     df_rated  = df[df['Aggregate rating'] > 0].copy()
     unrated   = len(df) - len(df_rated)
 
-    print(f"✅ Filtered rated restaurants!")
-    print(f"   Rated     : {len(df_rated)}")
-    print(f"   Unrated   : {unrated} (excluded)")
+    print(f"Filtered rated restaurants!")
+    print(f"Rated     : {len(df_rated)}")
+    print(f"Unrated   : {unrated} (excluded)")
 
     return df_rated
 
@@ -416,45 +416,45 @@ def full_preprocessing_pipeline(filepath):
     print("=" * 55)
 
     # Step 1: Load
-    print("\n📌 Step 1: Loading data...")
+    print("\Step 1: Loading data...")
     df = load_data(filepath)
     if df is None:
         return None, None
 
     # Step 2: Missing values
-    print("\n📌 Step 2: Handling missing values...")
+    print("\Step 2: Handling missing values...")
     df = handle_missing_values(df)
 
     # Step 3: Drop columns
-    print("\n📌 Step 3: Dropping irrelevant columns...")
+    print("\Step 3: Dropping irrelevant columns...")
     df = drop_irrelevant_columns(df)
 
     # Step 4: Encode binary
-    print("\n📌 Step 4: Encoding binary columns...")
+    print("\Step 4: Encoding binary columns...")
     df = encode_binary_columns(df)
 
     # Step 5: Extract primary cuisine
-    print("\n📌 Step 5: Extracting primary cuisine...")
+    print("\Step 5: Extracting primary cuisine...")
     df = extract_primary_cuisine(df)
 
     # Step 6: Handle outliers in cost
-    print("\n📌 Step 6: Handling outliers...")
+    print("\Step 6: Handling outliers...")
     df = handle_outliers(df, 'Average Cost for two', method='clip')
 
     # Step 7: Filter rated restaurants
-    print("\n📌 Step 7: Filtering rated restaurants...")
+    print("\Step 7: Filtering rated restaurants...")
     df_rated = filter_rated_restaurants(df)
     df_clean = df.copy()
 
     # Step 8: Save
-    print("\n📌 Step 8: Saving cleaned datasets...")
+    print("\Step 8: Saving cleaned datasets...")
     df_clean.to_csv('../data/restaurant_cleaned.csv', index=False)
     df_rated.to_csv('../data/restaurant_rated.csv',   index=False)
-    print("✅ Saved: restaurant_cleaned.csv")
-    print("✅ Saved: restaurant_rated.csv")
+    print("Saved: restaurant_cleaned.csv")
+    print("Saved: restaurant_rated.csv")
 
     print("\n" + "=" * 55)
-    print("✅ PIPELINE COMPLETE!")
+    print("PIPELINE COMPLETE!")
     print(f"   Clean dataset : {df_clean.shape}")
     print(f"   Rated dataset : {df_rated.shape}")
     print("=" * 55)
