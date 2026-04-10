@@ -232,7 +232,7 @@ with col2:
 
 st.markdown("---")
 st.markdown(
-    "Built by **Rushikesh Shewatkar** | "
+    "Built by **Rahul Shewatkar** | "
     "Cognifyz Technologies ML Internship | "
     "[GitHub](https://github.com/rshewatkar)"
 )
