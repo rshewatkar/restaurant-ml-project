@@ -17,7 +17,7 @@ from utils import load_cleaned_data
 sys.path.append(
     os.path.join(os.path.dirname(__file__), '..', '..', 'src')
 )
-from location_analysis import (
+from src.location_analysis import (
     validate_coordinates,
     create_cluster_map,
     create_heatmap,

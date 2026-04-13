@@ -20,7 +20,7 @@ from utils import (
 sys.path.append(
     os.path.join(os.path.dirname(__file__), '..', '..', 'src')
 )
-from recommendation_system import (
+from src.recommendation_system import (
     build_feature_matrix,
     recommend_restaurants
 )
