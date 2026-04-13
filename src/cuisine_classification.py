@@ -3,9 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
-import os
 import warnings
 warnings.filterwarnings('ignore')
+
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ML
 from sklearn.model_selection import train_test_split
@@ -432,7 +434,7 @@ def plot_model_comparison(results_df, save_path=None):
     Example:
     --------
     plot_model_comparison(results_df,
-        save_path='../plots/task3_model_comparison.png')
+        plot_path = os.path.join(BASE_DIR, 'plots', 'task3_model_comparison.png')
     """
     metrics = ['Accuracy', 'Precision', 'Recall', 'F1 Score']
     x       = np.arange(len(metrics))
@@ -455,8 +457,9 @@ def plot_model_comparison(results_df, save_path=None):
     plt.tight_layout()
 
     if save_path:
-        plt.savefig(save_path, dpi=150, bbox_inches='tight')
-        print(f"Plot saved: {save_path}")
+      os.makedirs(os.path.dirname(save_path), exist_ok=True)
+      plt.savefig(save_path, dpi=150, bbox_inches='tight')  
+    
 
     plt.show()
 
@@ -503,8 +506,8 @@ def plot_confusion_matrix(y_test, y_pred,
     plt.tight_layout()
 
     if save_path:
-        plt.savefig(save_path, dpi=150, bbox_inches='tight')
-        print(f"Plot saved: {save_path}")
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        plt.savefig(save_path, dpi=150, bbox_inches='tight')  
 
     plt.show()
 
@@ -539,9 +542,9 @@ def plot_class_distribution(df, save_path=None):
     plt.tight_layout()
 
     if save_path:
-        plt.savefig(save_path, dpi=150, bbox_inches='tight')
-        print(f"Plot saved: {save_path}")
-
+       os.makedirs(os.path.dirname(save_path), exist_ok=True)
+       plt.savefig(save_path, dpi=150, bbox_inches='tight')  
+          
     plt.show()
 
 
@@ -665,8 +668,10 @@ def predict_cuisine(model, scaler, le, input_data):
 if __name__ == "__main__":
 
     # Load data
-    df = pd.read_csv('../data/restaurant_cleaned.csv')
-    print(f"Loaded: {df.shape}")
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    data_path = os.path.join(BASE_DIR, 'data', 'restaurant_cleaned.csv')
+    df = pd.read_csv(data_path)
+    print(f"Loaded from: {data_path}")    
 
     # Prepare features
     X, y, le, cuisine_list = prepare_features(
@@ -704,24 +709,30 @@ if __name__ == "__main__":
     )
 
     # Plots
+    plot_path = os.path.join(BASE_DIR, 'plots', 'task3_model_comparison.png')
+
+    confusion_path = os.path.join(BASE_DIR, 'plots', 'task3_confusion_matrix.png')
+    
     plot_model_comparison(
         results_df,
-        save_path='../plots/task3_model_comparison.png'
+        save_path = plot_path
     )
     plot_confusion_matrix(
         y_test,
         predictions['XGBoost'],
         cuisine_list,
         "XGBoost",
-        save_path='../plots/task3_confusion_matrix.png'
+        save_path=confusion_path
     )
 
     # Save
     save_models(models, scaler, le)
 
     # Save results
-    results_df.to_csv(
-        '../outputs/reports/task3_model_results.csv',
-        index=False
-    )
+    save_path = os.path.join(BASE_DIR, 'outputs', 'reports', 'task3_model_results.csv')
+
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+    results_df.to_csv(save_path, index=False)
+
+    print(f"Saved: {save_path}")
     print("All done!")

@@ -7,12 +7,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import folium
-from streamlit_folium import st_folium
+from streamlit_folium import folium_static
+
 import sys
 import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utils import load_cleaned_data
+
+
 
 sys.path.append(
     os.path.join(os.path.dirname(__file__), '..', '..', 'src')
@@ -22,11 +25,9 @@ from src.location_analysis import (
     create_cluster_map,
     create_heatmap,
     create_rating_map,
-    get_city_statistics,
-    plot_top_cities,
-    plot_avg_rating_by_city,
-    plot_price_by_city
+    get_city_statistics
 )
+
 
 # ============================================================
 # PAGE CONFIG
@@ -57,6 +58,9 @@ if df is None:
 
 df_valid = validate_coordinates(df)
 
+if df_valid.empty:
+    st.warning("No valid latitude/longitude data is available to display on the maps.")
+
 # ============================================================
 # MAP SELECTION
 # ============================================================
@@ -83,7 +87,10 @@ with st.spinner("🔄 Loading map..."):
             "Click markers for restaurant details.**"
         )
         m = create_cluster_map(df_valid)
-        st_folium(m, width=1200, height=500)
+        if m is not None:
+            folium_static(m, width=1200, height=500)
+        else:
+            st.info("Cluster map could not be created because no valid coordinates were found.")
 
     elif map_type == "🔥 Density Heatmap":
         st.markdown(
@@ -91,7 +98,10 @@ with st.spinner("🔄 Loading map..."):
             "weighted by popularity.**"
         )
         m = create_heatmap(df_valid)
-        st_folium(m, width=1200, height=500)
+        if m is not None:
+            folium_static(m, width=1200, height=500)
+        else:
+            st.info("Heatmap could not be created because no valid coordinates were found.")
 
     else:
         st.markdown("""
@@ -100,7 +110,10 @@ with st.spinner("🔄 Loading map..."):
         🟡 3.5+ Good | 🟠 3.0+ Average | 🔴 Below 3.0
         """)
         m = create_rating_map(df_valid)
-        st_folium(m, width=1200, height=500)
+        if m is not None:
+            folium_static(m, width=1200, height=500)
+        else:
+            st.info("Rating map could not be created because no valid coordinates were found.")
 
 st.markdown("---")
 

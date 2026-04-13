@@ -3,9 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
-import os
 import warnings
 warnings.filterwarnings('ignore')
+
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ML
 from sklearn.preprocessing import MinMaxScaler
@@ -349,7 +351,11 @@ def plot_recommendations(all_user_recs, save_path=None):
 # ============================================================
 
 def save_recommender(tfidf, scaler,
-                     save_dir='../outputs/models/'):
+                     save_dir=None):
+
+    if save_dir is None:
+        save_dir = os.path.join(BASE_DIR, 'outputs', 'models')
+
     """
     Save TF-IDF vectorizer and scaler.
 
@@ -410,7 +416,8 @@ def load_recommender(tfidf_path, scaler_path):
 if __name__ == "__main__":
 
     # Load data
-    df = pd.read_csv('../data/restaurant_cleaned.csv')
+    data_path = os.path.join(BASE_DIR, 'data', 'restaurant_cleaned.csv')
+    df = pd.read_csv(data_path)
     print(f"Loaded: {df.shape}")
 
     # Build feature matrix
@@ -419,7 +426,7 @@ if __name__ == "__main__":
      city_cols, df) = build_feature_matrix(df)
 
     # Test recommendations
-    print("\n User 1: North Indian, New Delhi, Budget")
+    print("\nUser 1: North Indian, New Delhi, Budget")
     recs1 = recommend_restaurants(
         df, feature_matrix, tfidf, scaler, city_cols,
         cuisine_preference = "North Indian",
@@ -440,11 +447,13 @@ if __name__ == "__main__":
         print(f"  {k:30s}: {v}")
 
     # Plot
+    plot_path = os.path.join(BASE_DIR, 'plots', 'task2_recommendations.png')
     plot_recommendations(
         [(recs1, "User 1: North Indian, Delhi")],
-        save_path='../plots/task2_recommendations.png'
+        save_path=plot_path
     )
 
-    # Save
+    # Save models
     save_recommender(tfidf, scaler)
+
     print("All done!")

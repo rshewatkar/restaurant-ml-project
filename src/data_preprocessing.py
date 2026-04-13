@@ -3,7 +3,8 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 import warnings
 warnings.filterwarnings('ignore')
-
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ============================================================
 # SECTION 1 — DATA LOADING
@@ -23,7 +24,8 @@ def load_data(filepath):
 
     Example:
     --------
-    df = load_data('../data/restaurant_dataset.csv')
+    data_path = os.path.join(BASE_DIR, 'data', 'restaurant_dataset.csv')
+    df = load_data(data_path)
     """
     try:
         df = pd.read_csv(filepath, encoding='latin-1')
@@ -448,8 +450,11 @@ def full_preprocessing_pipeline(filepath):
 
     # Step 8: Save
     print("\Step 8: Saving cleaned datasets...")
-    df_clean.to_csv('../data/restaurant_cleaned.csv', index=False)
-    df_rated.to_csv('../data/restaurant_rated.csv',   index=False)
+    clean_path = os.path.join(BASE_DIR, 'data', 'restaurant_cleaned.csv')
+    rated_path = os.path.join(BASE_DIR, 'data', 'restaurant_rated.csv')
+
+    df_clean.to_csv(clean_path, index=False)
+    df_rated.to_csv(rated_path, index=False)
     print("Saved: restaurant_cleaned.csv")
     print("Saved: restaurant_rated.csv")
 
@@ -467,6 +472,5 @@ def full_preprocessing_pipeline(filepath):
 # ============================================================
 
 if __name__ == "__main__":
-    df_clean, df_rated = full_preprocessing_pipeline(
-        '../data/restaurant_dataset.csv'
-    )
+    data_path = os.path.join(BASE_DIR, 'data', 'restaurant_dataset.csv')
+    df_clean, df_rated = full_preprocessing_pipeline(data_path)

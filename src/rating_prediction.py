@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
-import os
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -19,6 +18,11 @@ from sklearn.metrics import (
     r2_score
 )
 
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def get_path(relative_path):
+    return os.path.join(BASE_DIR, relative_path)
 
 # ============================================================
 # SECTION 1 — FEATURE PREPARATION
@@ -413,8 +417,9 @@ def plot_model_comparison(results_df, save_path=None):
     plt.tight_layout()
 
     if save_path:
-        plt.savefig(save_path, dpi=150, bbox_inches='tight')
-        print(f"Plot saved: {save_path}")
+       os.makedirs(os.path.dirname(save_path), exist_ok=True)
+       plt.savefig(save_path, dpi=150, bbox_inches='tight')
+       print(f"Plot saved: {save_path}")
 
     plt.show()
 
@@ -453,8 +458,10 @@ def plot_feature_importance(model, feature_cols, save_path=None):
     plt.tight_layout()
 
     if save_path:
-        plt.savefig(save_path, dpi=150, bbox_inches='tight')
-        print(f"Plot saved: {save_path}")
+       os.makedirs(os.path.dirname(save_path), exist_ok=True)
+       plt.savefig(save_path, dpi=150, bbox_inches='tight')
+       print(f"Plot saved: {save_path}")
+
 
     plt.show()
     return importance_df
@@ -464,7 +471,7 @@ def plot_feature_importance(model, feature_cols, save_path=None):
 # SECTION 6 — SAVE & LOAD MODELS
 # ============================================================
 
-def save_models(models, scaler, save_dir='../outputs/models/'):
+def save_models(models, scaler, save_dir=get_path('../outputs/models/')):
     """
     Save trained models and scaler to disk.
 
@@ -578,9 +585,9 @@ def predict_rating(model, scaler, input_data):
 if __name__ == "__main__":
 
     # Load data
-    df = pd.read_csv('../data/restaurant_rated.csv')
+    df = pd.read_csv(get_path('../data/restaurant_rated.csv'))
     print(f"Loaded: {df.shape}")
-
+     
     # Prepare features
     X, y, encoders = prepare_features(df)
 
@@ -612,8 +619,8 @@ if __name__ == "__main__":
     save_models(models, scaler)
 
     # Save results
-    results_df.to_csv(
-        '../outputs/reports/task1_model_results.csv',
-        index=False
-    )
+    save_path = '../outputs/reports/task1_model_results.csv'
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+    results_df.to_csv(save_path, index=False)
+    
     print("Results saved!")
